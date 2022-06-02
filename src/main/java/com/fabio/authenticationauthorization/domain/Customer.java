@@ -1,6 +1,7 @@
 package com.fabio.authenticationauthorization.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -20,13 +21,18 @@ public class Customer implements Serializable {
     private String nome;
     private String email;
 
+    @JsonIgnore
+    private String senha;
+
     public Customer(){
     }
 
-    public Customer(Long id, String nome, String email) {
+    public Customer(Long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
         this.email = email;
+        this.senha = senha;
+
     }
 
     public Long getId() {
@@ -53,6 +59,13 @@ public class Customer implements Serializable {
         this.email = email;
     }
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
     @Override
     public boolean equals(Object o) {

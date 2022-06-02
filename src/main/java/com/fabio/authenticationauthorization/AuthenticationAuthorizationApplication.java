@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -26,6 +27,9 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 	@Autowired
 	private PurchaseOrderRepository purchaseOrderRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationAuthorizationApplication.class, args);
 	}
@@ -35,9 +39,9 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		Customer c1 = new Customer(null, "Fabio", "fabio@gmail.com");
-		Customer c2 = new Customer(null, "Maria", "maria@gmail.com");
-		Customer c3 = new Customer(null,"Priscila", "priscila@gmail.com");
+		Customer c1 = new Customer(null, "Fabio", "fabio@gmail.com", passwordEncoder.encode("123"));
+		Customer c2 = new Customer(null, "Maria", "maria@gmail.com", passwordEncoder.encode("456"));
+		Customer c3 = new Customer(null,"Priscila", "priscila@gmail.com", passwordEncoder.encode("789"));
 
 		Product p1 = new Product(null, "bola",80.00);
 		Product p2 = new Product(null, "chuteira", 250.00);
