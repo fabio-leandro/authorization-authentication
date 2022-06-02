@@ -3,6 +3,7 @@ package com.fabio.authenticationauthorization;
 import com.fabio.authenticationauthorization.domain.Customer;
 import com.fabio.authenticationauthorization.domain.Product;
 import com.fabio.authenticationauthorization.domain.PurchaseOrder;
+import com.fabio.authenticationauthorization.domain.enuns.Perfil;
 import com.fabio.authenticationauthorization.repositories.CustomerRepository;
 import com.fabio.authenticationauthorization.repositories.ProductRepository;
 import com.fabio.authenticationauthorization.repositories.PurchaseOrderRepository;
@@ -42,12 +43,15 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 		Customer c1 = new Customer(null, "Fabio", "fabio@gmail.com", passwordEncoder.encode("123"));
 		Customer c2 = new Customer(null, "Maria", "maria@gmail.com", passwordEncoder.encode("456"));
 		Customer c3 = new Customer(null,"Priscila", "priscila@gmail.com", passwordEncoder.encode("789"));
+		Customer c4 = new Customer(null, "Sarah", "sarah@hotmail.com",passwordEncoder.encode("555"));
+
+		c4.addPerfil(Perfil.ADMIN);
 
 		Product p1 = new Product(null, "bola",80.00);
 		Product p2 = new Product(null, "chuteira", 250.00);
 		Product p3 = new Product(null, "calcao", 45.00);
 
-		customerRepository.saveAll(List.of(c1,c2,c3));
+		customerRepository.saveAll(List.of(c1,c2,c3,c4));
 		productRepository.saveAll(List.of(p1,p2,p3));
 
 		PurchaseOrder o1 = new PurchaseOrder(null, sdf.parse("23/05/2022"),c1);

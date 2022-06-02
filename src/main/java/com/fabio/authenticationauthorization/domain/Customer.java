@@ -1,12 +1,16 @@
 package com.fabio.authenticationauthorization.domain;
 
 
+import com.fabio.authenticationauthorization.domain.enuns.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
@@ -24,7 +28,12 @@ public class Customer implements Serializable {
     @JsonIgnore
     private String senha;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIS")
+    private Set<Integer> perfis = new HashSet<>();
+
     public Customer(){
+        addPerfil(Perfil.CLIENTE);
     }
 
     public Customer(Long id, String nome, String email, String senha) {
@@ -32,6 +41,7 @@ public class Customer implements Serializable {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        addPerfil(Perfil.CLIENTE);
 
     }
 
@@ -65,6 +75,14 @@ public class Customer implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Set<Perfil> getPerfis(){
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil){
+        perfis.add(perfil.getCod());
     }
 
     @Override
