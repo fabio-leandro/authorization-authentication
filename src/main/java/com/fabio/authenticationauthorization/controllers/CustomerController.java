@@ -1,11 +1,14 @@
 package com.fabio.authenticationauthorization.controllers;
 
 import com.fabio.authenticationauthorization.domain.Customer;
+import com.fabio.authenticationauthorization.dtos.NewCustomerDto;
 import com.fabio.authenticationauthorization.services.CustomerService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+
     @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers(){
@@ -24,8 +28,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer){
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.saveCustomer(customer));
+    public ResponseEntity<Customer> saveCustomer(@RequestBody NewCustomerDto dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.saveCustomer(dto));
     }
 
     @GetMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.fabio.authenticationauthorization.services;
 
 import com.fabio.authenticationauthorization.domain.Customer;
+import com.fabio.authenticationauthorization.dtos.NewCustomerDto;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotDeletedException;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotFoundException;
 import com.fabio.authenticationauthorization.repositories.CustomerRepository;
@@ -24,7 +25,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer saveCustomer(Customer customer){
+    public Customer saveCustomer(NewCustomerDto dto){
+        Customer customer = toCustomer(dto);
         customer.setSenha(passwordEncoder.encode(customer.getSenha()));
         return customerRepository.save(customer);
     }
@@ -48,5 +50,15 @@ public class CustomerService {
                     " It might was used in another object.");
         }
 
+    }
+
+    public Customer toCustomer(NewCustomerDto dto){
+        Customer customer = new Customer();
+        customer.setId(dto.getId());
+        customer.setNome(dto.getNome());
+        customer.setEmail(dto.getEmail());
+        customer.setSenha(dto.getSenha());
+
+        return customer;
     }
 }

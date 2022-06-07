@@ -2,6 +2,7 @@ package com.fabio.authenticationauthorization.domain;
 
 
 import com.fabio.authenticationauthorization.domain.enuns.Perfil;
+import com.fabio.authenticationauthorization.dtos.NewCustomerDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
