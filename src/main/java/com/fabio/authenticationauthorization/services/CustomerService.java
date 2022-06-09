@@ -1,10 +1,13 @@
 package com.fabio.authenticationauthorization.services;
 
 import com.fabio.authenticationauthorization.domain.Customer;
+import com.fabio.authenticationauthorization.domain.enuns.Perfil;
 import com.fabio.authenticationauthorization.dtos.NewCustomerDto;
+import com.fabio.authenticationauthorization.exceptions.AuthorizationException;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotDeletedException;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotFoundException;
 import com.fabio.authenticationauthorization.repositories.CustomerRepository;
+import com.fabio.authenticationauthorization.security.UserSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,17 +35,21 @@ public class CustomerService {
     }
 
     public Customer getById(Long id){
+        UserSS user = UserService.authenticated();
+        if ((user == null || !user.hasRole(Perfil.ADMIN)) && (id != user.getId().longValue())){
+            throw new AuthorizationException("Acesso Negado");
+        }
         return customerRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Customer not found with id -> "+id));
     }
 
     public Customer update(Long id, Customer customer){
-        getById(id);
+        customerRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Customer not found with id -> "+id));
         return customerRepository.save(customer);
     }
 
     public void delete(Long id){
-        getById(id);
+        customerRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Customer not found with id -> "+id));
         try {
             customerRepository.deleteById(id);
         }catch (DataIntegrityViolationException e){

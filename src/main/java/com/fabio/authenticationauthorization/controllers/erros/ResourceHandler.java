@@ -1,5 +1,6 @@
 package com.fabio.authenticationauthorization.controllers.erros;
 
+import com.fabio.authenticationauthorization.exceptions.AuthorizationException;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotDeletedException;
 import com.fabio.authenticationauthorization.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,16 @@ public class ResourceHandler {
         msgError.setError("The object cannot be deleted.");
         msgError.setPath(request.getRequestURI());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(msgError);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<MsgError> authorizationException(AuthorizationException e, HttpServletRequest request){
+        MsgError msgError = new MsgError();
+        msgError.setStatus(HttpStatus.FORBIDDEN.value());
+        msgError.setMessage(e.getMessage());
+        msgError.setError("It's was not possible accessing.");
+        msgError.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(msgError);
     }
 
 }

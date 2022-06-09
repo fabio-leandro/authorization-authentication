@@ -2,7 +2,9 @@ package com.fabio.authenticationauthorization.controllers;
 
 import com.fabio.authenticationauthorization.domain.Customer;
 import com.fabio.authenticationauthorization.dtos.NewCustomerDto;
+import com.fabio.authenticationauthorization.security.UserSS;
 import com.fabio.authenticationauthorization.services.CustomerService;
+import com.fabio.authenticationauthorization.services.UserService;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
