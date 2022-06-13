@@ -59,12 +59,20 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 		o1.getProducts().add(p2);
 		purchaseOrderRepository.save(o1);
 
-//		PurchaseOrder o2 = new PurchaseOrder(null,sdf.parse("22/05/2022"),c1);
-////		o2.getProducts().add(p1);
-////		o2.getProducts().add(p2);
-//		o2.getProducts().add(p3);
-//		purchaseOrderRepository.save(o2);
+		PurchaseOrder o2 = new PurchaseOrder(null, sdf.parse("10/06/2022"),c1);
+		o2.getProducts().add(p3);
+		o2.getProducts().add(p2);
+		purchaseOrderRepository.save(o2);
 
+		PurchaseOrder o3 = new PurchaseOrder(null, sdf.parse("10/06/2022"),c2);
+		o3.getProducts().add(p1);
+		o3.getProducts().add(p2);
+		purchaseOrderRepository.save(o3);
+
+		PurchaseOrder o4 = new PurchaseOrder(null, sdf.parse("10/06/2022"),c2);
+		o4.getProducts().add(p1);
+		o4.getProducts().add(p2);
+		purchaseOrderRepository.save(o4);
 
 	}
 }

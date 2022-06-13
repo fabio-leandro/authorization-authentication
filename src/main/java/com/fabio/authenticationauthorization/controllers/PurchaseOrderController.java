@@ -17,14 +17,20 @@ public class PurchaseOrderController {
     @Autowired
     private PurchaseOrderService purchaseOrderService;
 
+    @PostMapping
+    public ResponseEntity<PurchaseOrder> saveOrder(@RequestBody PurchaseOrder order){
+        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseOrderService.saveOrder(order));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<PurchaseOrder>> getAllOrders(){
         return ResponseEntity.ok(purchaseOrderService.getAllOrders());
     }
 
-    @PostMapping
-    public ResponseEntity<PurchaseOrder> saveOrder(@RequestBody PurchaseOrder order){
-        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseOrderService.saveOrder(order));
+    @GetMapping("/customerOrders/{id}")
+    public ResponseEntity<List<PurchaseOrder>> getAllByCustomerId(@PathVariable Long id){
+        return ResponseEntity.ok(purchaseOrderService.getAllCustomerId(id));
     }
 
     @GetMapping("/{id}")
