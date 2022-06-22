@@ -7,6 +7,7 @@ import com.fabio.authenticationauthorization.domain.enuns.Perfil;
 import com.fabio.authenticationauthorization.repositories.CustomerRepository;
 import com.fabio.authenticationauthorization.repositories.ProductRepository;
 import com.fabio.authenticationauthorization.repositories.PurchaseOrderRepository;
+import com.fabio.authenticationauthorization.services.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,6 +31,9 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private EmailService emailService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationAuthorizationApplication.class, args);
@@ -73,6 +77,8 @@ public class AuthenticationAuthorizationApplication implements CommandLineRunner
 		o4.getProducts().add(p1);
 		o4.getProducts().add(p2);
 		purchaseOrderRepository.save(o4);
+
+		emailService.send("fabio@gmail.com","Teste Spring","Estamos fazendo o teste.");
 
 	}
 }

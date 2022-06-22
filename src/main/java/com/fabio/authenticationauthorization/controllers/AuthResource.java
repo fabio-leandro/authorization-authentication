@@ -26,4 +26,5 @@ public class AuthResource {
         return ResponseEntity.noContent().build();
     }
 
+
 }
